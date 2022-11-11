@@ -5,17 +5,28 @@ import java.util.Arrays;
 public class Sorting{
 	
 	public ArrayList<Integer> bubbleSort(ArrayList<Integer> list){ 
+	
 		for(int i = 0; i < list.size() - 1; i++){
-			for(int j = i + 1; j < list.size(); j++){
-				if(list.get(i) > list.get(j)){
-					this.swap(list, i, j);
+			
+			boolean swapMade = false;
+			for(int j = 0; j < list.size() - i - 1; j++){
+				
+				if(list.get(j) > list.get(j + 1)){
+					this.swap(list, j, j + 1);
+					swapMade = true;
 				}
+				
 			}
+			if(!swapMade){
+				break;
+			}
+			
 		}
 		return list;
 	}
 	
 	public ArrayList<Integer> insertionSort(ArrayList<Integer> list){
+	
 		int i = list.size() - 1;
 		while(i > 0){
 			int index = i;
@@ -29,6 +40,7 @@ public class Sorting{
 			}
 			else{
 				list.add(index, list.remove(i));
+				
 			}
 		}
 		return list;
@@ -70,11 +82,15 @@ public class Sorting{
 		for(int i = 10000; i <= 100000; i += 10000){
 			ArrayList<Integer> list = tester.fillRandom(i, 100000);
 			long start = System.currentTimeMillis();
-			tester.insertionSort(list);
+			tester.bubbleSort(list);
 			long end = System.currentTimeMillis();
 			
 			System.out.println(i + " values: " + (end - start) + " ms");
 
 		}
+		
+		
+		
+		
 	}
 }
