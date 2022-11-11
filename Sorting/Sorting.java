@@ -37,6 +37,21 @@ public class Sorting{
 		return list;
 	}
 	
+	public ArrayList<Integer> selectionSort(ArrayList<Integer> list){
+		for(int i = 0; i < list.size() - 1; i++){
+			int minValue = list.get(i);
+			int minIndex = i;
+			for(int j = i + 1; j < list.size(); j++){
+				if(list.get(j) < minValue){
+					minIndex = j;
+					minValue = list.get(j);
+				}
+			}
+			this.swap(list, i, minIndex);
+		}
+		return list;
+	}
+	
 	
 	public void swap(ArrayList<Integer> list, int i, int j){
 		int temp = list.get(i);
@@ -64,6 +79,7 @@ public class Sorting{
 			System.out.println(i + " values: " + (end - start) + " ms");
 
 		}
+		
 		
 		
 	}
