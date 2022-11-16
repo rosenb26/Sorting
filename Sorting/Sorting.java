@@ -26,26 +26,8 @@ public class Sorting{
 	}
 	
 	public ArrayList<Integer> insertionSort(ArrayList<Integer> list){
-	
-		int i = list.size() - 1;
-		while(i > 0){
-		
-			int index = i;
-			for(int j = i - 1; j >= 0; j--){
-			
-				if(list.get(j) > list.get(i)){
-					index = j;
-				}
-			}
-			if(index == i){
-				i--;
-			}
-			else{
-				list.add(index, list.remove(i));
-				
-			}
-		}
-		return list;
+		/* Insertion sort is Shell sort with a starting gap of 1. */
+		return this.shellSort(list, 1);
 	}
 	
 	public ArrayList<Integer> selectionSort(ArrayList<Integer> list){
@@ -141,6 +123,47 @@ public class Sorting{
 		list.set(j, temp);
 	}
 	
+	public ArrayList<Integer> shellSort(ArrayList<Integer> list){
+		return this.shellSort(list, list.size()/2);
+	}
+	
+	/**
+	* Implements a Shell sort with a given starting gap.
+	* A starting gap of 1 is equivalent to an insertion sort.
+	*/
+	private ArrayList<Integer> shellSort(ArrayList<Integer> list, int gap){
+		
+		while(gap >= 1){
+			
+			int i = gap;
+			
+			while(i < list.size()){
+				int index = i;
+				
+				int n = 1;
+				while(i - n*gap >=0 && list.get(i) < list.get(i - n*gap)){
+					index = i - n*gap;
+					n++;
+				}
+				if(index != i){
+					this.shellInsert(list, index, i, gap);
+				}
+				i++;
+			}
+			
+			gap /= 2;
+		}
+		return list;
+	}
+	
+	public void shellInsert(ArrayList<Integer> list, int start, int end, int gap){
+		int temp = list.get(end);
+		for(int i = end; i > start; i -= gap){
+			list.set(i, list.get(i - gap));
+		}
+		list.set(start, temp);		
+	}
+	
 	public ArrayList<Integer> fillRandom(int n, int bound){
 		Random rng = new Random();
 		ArrayList<Integer> list = new ArrayList<>();
@@ -153,14 +176,14 @@ public class Sorting{
 	public static void main(String[] args){
 			Sorting tester = new Sorting();
 			/*
-			for(int i = 10000; i <= 500000; i += 10000){
+			for(int i = 10000; i <= 100000; i += 10000){
 			ArrayList<Integer> list = tester.fillRandom(i, 100000);
 			long start = System.currentTimeMillis();
-			tester.mergeSort(list);
+			tester.shellSort(list);
 			long end = System.currentTimeMillis();
 			
 			System.out.println(i + " values: " + (end - start) + " ms");
 			}*/
-			 
+			
 	}
 }
