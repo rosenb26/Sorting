@@ -164,6 +164,61 @@ public class Sorting{
 		list.set(start, temp);		
 	}
 	
+	public ArrayList<Integer> quickSort(ArrayList<Integer> list){
+		return this.quickSort(list, 0, list.size() - 1);
+	}
+	
+	private ArrayList<Integer> quickSort(ArrayList<Integer> list, int start, int end){
+		if(start >= end){
+			return list;
+		}
+		list = this.medianToFront(list, start, end);
+		int pivotIndex = this.partition(list, start, end);
+		this.quickSort(list, start, pivotIndex - 1);
+		this.quickSort(list, pivotIndex + 1, end);
+		return list;
+	}
+	
+	private int partition(ArrayList<Integer> list, int start, int end){
+		int nextBiggestIndex = start + 1;
+		int nextSmallestIndex = end;
+		while(nextBiggestIndex < nextSmallestIndex){
+		
+			while(list.get(start) >= list.get(nextBiggestIndex)){
+				nextBiggestIndex++;
+				if(nextBiggestIndex == list.size()){
+					break;
+				}
+			}
+			while(list.get(start) < list.get(nextSmallestIndex)){
+				nextSmallestIndex--;
+			}
+			if(nextBiggestIndex < nextSmallestIndex){
+				this.swap(list, nextBiggestIndex, nextSmallestIndex);
+			}
+			
+		}
+		if(nextSmallestIndex < nextBiggestIndex){
+			this.swap(list, start,nextSmallestIndex);
+		}
+		return nextSmallestIndex;
+		
+	}
+	
+	private ArrayList<Integer> medianToFront(ArrayList<Integer> list, int start, int end){
+		int middle = (end + start)/2;
+		if(list.get(start) > list.get(middle)){
+			this.swap(list, start, middle);
+		}
+		if(list.get(middle) > list.get(end)){
+			this.swap(list, middle, end);
+		}
+		if(list.get(start) < list.get(middle)){
+			this.swap(list, start, middle);
+		}
+		return list;
+	}
+	
 	public ArrayList<Integer> fillRandom(int n, int bound){
 		Random rng = new Random();
 		ArrayList<Integer> list = new ArrayList<>();
@@ -176,14 +231,13 @@ public class Sorting{
 	public static void main(String[] args){
 			Sorting tester = new Sorting();
 			/*
-			for(int i = 10000; i <= 100000; i += 10000){
+			for(int i = 10000; i <= 500000; i += 10000){
 			ArrayList<Integer> list = tester.fillRandom(i, 100000);
 			long start = System.currentTimeMillis();
-			tester.shellSort(list);
+			tester.quickSort(list);
 			long end = System.currentTimeMillis();
 			
 			System.out.println(i + " values: " + (end - start) + " ms");
-			}*/
-			
+			}/*
 	}
 }
